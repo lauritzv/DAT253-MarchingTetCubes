@@ -5,6 +5,11 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 
+# CT Scan data
+dicomdata/
+dicomdata2/
+Assets/dicomdata
+
 # Visual Studio cache directory
 .vs/
 
