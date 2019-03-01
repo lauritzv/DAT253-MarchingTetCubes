@@ -47,15 +47,18 @@ namespace MarchingCubesProject
         Vector3 _voxelSize;
         private SliceInfo info;
 
+        private bool valueFound = false;
+
         private bool dicomSetLoaded = false;
 
         private void LoadDicomData()
         {
             Slice.initDicom();
+
             // absolute path: string dicomfilepath = @"D:\Hoyskolen\ctScans++\Bag scan\55540002";
-            //relative path : 
-            string dicomfilepath = Application.dataPath + @"/../dicomdata2/"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
-            
+            //relative path :
+            string dicomfilepath = Application.dataPath + @"/../dicomdata/"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
+
             _numSlices = _numSlices = Slice.getnumslices(dicomfilepath);
             _slices = new Slice[_numSlices];
 
@@ -67,8 +70,6 @@ namespace MarchingCubesProject
 
             _minIntensity = (int)min;
             _maxIntensity = (int)max;
-
-            _iso = (_minIntensity + _maxIntensity) / 2;
 
             _xdim = info.Rows;
             _ydim = info.Columns;
@@ -109,7 +110,8 @@ namespace MarchingCubesProject
                     LoadDicomData();
                     dicomSetLoaded = true;
                 }
-                voxels = GenerateDicomSliceVoxels();
+                //voxels = GenerateDicomSliceVoxels();
+                voxels = GenerateDicomSliceVoxels(Width, Height, Length);
             }
             NewVoxelsNeeded = false;
         }
@@ -140,9 +142,7 @@ namespace MarchingCubesProject
             //Surface is the value that represents the surface of mesh
             //For example the perlin noise has a range of -1 to 1 so the mid point is where we want the surface to cut through.
             //The target value does not have to be the mid point it can be any value with in the range.
-            if (MObject == MARCHING_OBJECT.DicomScan)
-                marching.Surface = _iso;
-            else marching.Surface = Iso;
+            marching.Surface = Iso;
 
 
             List<Vector3> verts = new List<Vector3>();
@@ -150,7 +150,11 @@ namespace MarchingCubesProject
 
             //The mesh produced is not optimal. There is one vert for each index.
             //Would need to weld vertices for better quality mesh.
+
+            print("w:" + Width + " h:" + Height + " l:" + Length);
             marching.Generate(voxels, Width, Height, Length, verts, indices);
+
+            print("marching alg complete. Creating meshes from " + verts.Count + " vertices...");
 
             //A mesh in unity can only be made up of 65000 verts.
             //Need to split the verts between multiple meshes.
@@ -197,13 +201,14 @@ namespace MarchingCubesProject
             }
         }
 
-        private float[] GenerateDicomSliceVoxels()
+        private float[] GenerateDicomSliceVoxels(int width, int height, int length)
         {
-            int width = _xdim;
-            int height = _ydim;
-            int length = _zdim;
-            
+            float stepsizeX = _xdim / (width);
+            float stepsizeY = _ydim / (height);
+            float stepsizeZ = _zdim / (length);
+
             float[] voxels = new float[width * height * length];
+
             print("generating " + voxels.Length + " voxels...");
             for (int x = 0; x < width; x++)
             {
@@ -211,17 +216,11 @@ namespace MarchingCubesProject
                 {
                     for (int z = 0; z < length; z++)
                     {
-                        float fx = x / (width - 1f);
-                        float fy = y / (height - 1f);
-                        float fz = z / (length - 1f);
-
-                        int idx = x + y * width + z * width * height;
-
-                        voxels[idx] = GetDicomLocVal(x, y, z);
+                        int idx = x + y * width + z * width * height; // xxxxxyyyyyzzzzz
+                        voxels[idx] = GetDicomLocVal((int) (((float)x)*stepsizeX),(int) (((float)y)*stepsizeY),(int) (((float)z)*stepsizeZ));
                     }
                 }
             }
-            print(voxels.Length + " voxels generated");
             return voxels;
         }
 
@@ -251,7 +250,7 @@ namespace MarchingCubesProject
         }
         /// <summary>
         /// Generates voxelt in a sphere shape
-        /// Bug: Radius doesn't have the expected effect...
+        /// Bug: Radius doesn't have the desired effect of scaling the sphere
         /// </summary>
         private float[] GenerateSphereVoxels(float radius, int width, int height, int length, Vector3 origo)
         {
@@ -259,7 +258,6 @@ namespace MarchingCubesProject
             float stepsizeX = 2f * radius / (width - 1);
             float stepsizeY = 2f * radius / (height - 1);
             float stepsizeZ = 2f * radius / (length - 1);
-            //print(stepsizeX + " " + stepsizeY + " " + stepsizeZ);
 
             for (int x = 0; x < width; x++)
             {
@@ -267,11 +265,12 @@ namespace MarchingCubesProject
                 {
                     for (int z = 0; z < length; z++)
                     {
-                        float fx = x / (width - 1f);
-                        float fy = y / (height - 1f);
-                        float fz = z / (length - 1f);
+                        //float fx = x / (width - 1f);
+                        //float fy = y / (height - 1f);
+                        //float fz = z / (length - 1f);
 
                         int idx = x + y * width + z * width * height;
+                        //float val = GetSphereLocVal(new Vector3(fx, fy, fz), radius, origo);
                         float val = GetSphereLocVal(new Vector3(x * stepsizeX, y * stepsizeY, z * stepsizeZ), radius, origo);
 
                         voxels[idx] = val;
@@ -289,17 +288,18 @@ namespace MarchingCubesProject
 
         private float GetDicomLocVal(int x, int y, int slicenr)
         {
-            // how to access the values inside a specific slice:
-            ushort[] pixels = _slices[slicenr].getPixels();
-            ushort val = pixels[x + y * _ydim]; // val is value at index (11,44) for slice 4, i.e. index (11,44,4)
-            float minVal = info.SmallestImagePixelValue;
-            float maxVal = info.LargestImagePixelValue;
+            int pxVal = - (_slices[slicenr].getPixels()[x + (y * _ydim)]);
+            //if (pxVal > 0 && !valueFound)
+            //{
+            //    print(pxVal);
+            //    valueFound = true;
+            //}
 
-            float ret = (val - minVal) / maxVal; 
-            //print("min: " + minVal + " - max: " + maxVal);
-            //int val = pixels[x + y * _xdim]; // val is value at index (11,44) for slice 4, i.e. index (11,44,4)
-            //print(val + " : " + val / 255f);
-            return ret;
+            //return 1 - 2*Mathf.Lerp(_minIntensity, _maxIntensity, Mathf.InverseLerp(0, 1, (float)pxVal));
+
+
+            return 1 - (((float)pxVal - (float)_minIntensity) / ((float)_maxIntensity - (float)_minIntensity));
+
         }
 
     }

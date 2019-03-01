@@ -64,7 +64,9 @@ namespace MarchingCubesProject
             float offset, invOffset;
 
             //Find which vertices are inside of the surface and which are outside
-            for (i = 0; i < 4; i++) if (TetrahedronValue[i] <= Surface) flagIndex |= 1 << i;
+            for (i = 0; i < 4; i++)
+                if (TetrahedronValue[i] <= Surface)
+                    flagIndex |= 1 << i;
 
             //Find which edges are intersected by the surface
             edgeFlags = TetrahedronEdgeFlags[flagIndex];

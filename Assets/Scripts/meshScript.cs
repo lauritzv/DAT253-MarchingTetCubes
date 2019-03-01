@@ -16,26 +16,28 @@ public class meshScript : MonoBehaviour
         MeshFilter meshFilter = (MeshFilter)go.AddComponent(typeof(MeshFilter));
         MeshRenderer renderer = go.AddComponent(typeof(MeshRenderer)) as MeshRenderer;
     }
- 
+
     public void createMeshGeometry(List<Vector3> vertices, List<int> indices)
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         mesh.Clear();
         mesh.SetVertices(vertices);
-     
+
         // https://docs.unity3d.com/ScriptReference/MeshTopology.html
-        mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);   // MeshTopology.Points  MeshTopology.LineStrip   MeshTopology.Triangles 
+        mesh.SetIndices(indices.ToArray(), MeshTopology.Lines, 0);   // MeshTopology.Points  MeshTopology.LineStrip   MeshTopology.Triangles
         mesh.RecalculateBounds();
 
     }
 
     public void MeshToFile(string filename, List<Vector3> vertices, List<int> indices)
+
     {
         StreamWriter stream = new StreamWriter(filename);
         stream.WriteLine("g " + "Mesh");
+        System.Globalization.CultureInfo dotasDecimalSeparator = new System.Globalization.CultureInfo("en-US");
 
         foreach (Vector3 v in vertices)
-            stream.WriteLine(string.Format("v {0} {1} {2}", v.x, v.y, v.z));
+            stream.WriteLine(string.Format(dotasDecimalSeparator, "v {0} {1} {2}", v.x, v.y, v.z));
 
         stream.WriteLine();
 
@@ -45,5 +47,7 @@ public class meshScript : MonoBehaviour
         stream.Close();
         print("Mesh saved to file: " + filename);
     }
+
+
 
 }

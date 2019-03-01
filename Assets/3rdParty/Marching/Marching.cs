@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MarchingCubesProject
 {
-    public abstract class Marching : IMarching
+    public abstract class Marching
     {
 
         public float Surface { get; set; }
@@ -73,6 +73,7 @@ namespace MarchingCubesProject
         protected abstract void March(float x, float y, float z, float[] cube, IList<Vector3> vertList, IList<int> indexList);
 
         /// <summary>
+        /// For interpolation purposes.
         /// GetOffset finds the approximate point of intersection of the surface
         /// between two points with the values v1 and v2
         /// </summary>
@@ -83,7 +84,7 @@ namespace MarchingCubesProject
         }
 
         /// <summary>
-        /// VertexOffset lists the positions, relative to vertex0, 
+        /// VertexOffset lists the positions, relative to vertex0,
         /// of each of the 8 vertices of a cube.
         /// vertexOffset[8][3]
         /// </summary>

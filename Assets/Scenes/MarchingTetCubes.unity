@@ -862,7 +862,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1477449061}
         m_MethodName: WidthChanged
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1567,8 +1567,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1098545293}
   m_HandleRect: {fileID: 911784780}
   m_Direction: 0
-  m_MinValue: -0.85
-  m_MaxValue: 0.85
+  m_MinValue: -2
+  m_MaxValue: 2
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1576,7 +1576,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1477449061}
         m_MethodName: IsoSliderChanged
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2430,7 +2430,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1247279937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3412,9 +3412,12 @@ MonoBehaviour:
   widthField: {fileID: 521553887}
   heigthField: {fileID: 1765774022}
   lengthField: {fileID: 1806779707}
-  radiusSlider: {fileID: 2097874414}
+  scaleSlider: {fileID: 2097874414}
   isoSlider: {fileID: 689828028}
-  mObject: {fileID: 0}
+  mObject: {fileID: 796129673}
+  defaultSphereIso: 0
+  defaultFractalIso: 0
+  defaultDicomIso: 1.1
 --- !u!1 &1530814526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3992,7 +3995,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1477449061}
         m_MethodName: HeigthChanged
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4218,7 +4221,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1477449061}
         m_MethodName: LengthChanged
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4551,13 +4554,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866038435}
-  m_LocalRotation: {x: 0.42261788, y: 0.001301653, z: -0.00060692674, w: 0.90630686}
+  m_LocalRotation: {x: -0.52243257, y: 0.00021243184, z: -0.0014203995, w: 0.85267943}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -62.991, y: 0.23300001, z: -0.33400002}
 --- !u!1 &1904769718
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,7 +4820,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Radius
+  m_Text: Scale
 --- !u!222 &2034915307
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4927,13 +4930,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2070280651}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -60}
+  m_LocalRotation: {x: 0.17762515, y: -0.6888052, z: -0.67186046, w: 0.20639819}
+  m_LocalPosition: {x: 40.27, y: -56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -121.544, y: 88.685, z: -266.262}
 --- !u!92 &2070280656
 Behaviour:
   m_ObjectHideFlags: 0
@@ -4997,7 +5000,7 @@ GameObject:
   - component: {fileID: 2097874413}
   - component: {fileID: 2097874414}
   m_Layer: 5
-  m_Name: RadiusSlider
+  m_Name: ScaleSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5061,21 +5064,21 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 669881182}
   m_FillRect: {fileID: 519568339}
   m_HandleRect: {fileID: 669881181}
   m_Direction: 0
-  m_MinValue: 1
-  m_MaxValue: 16
+  m_MinValue: 0.01
+  m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 8
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1477449061}
-        m_MethodName: RadiusSliderChanged
-        m_Mode: 1
+        m_MethodName: ScaleSliderChanged
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

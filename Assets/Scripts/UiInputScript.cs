@@ -13,10 +13,15 @@ namespace MarchingCubesProject
         public InputField widthField;
         public InputField heigthField;
         public InputField lengthField;
-        public Slider radiusSlider;
+        public Slider scaleSlider;
         public Slider isoSlider;
         public Dropdown mObject;
 
+        public float defaultSphereIso = 0f;
+        public float defaultFractalIso = 0f;
+        public float defaultDicomIso = 1.1f;
+
+        private List<float> defaultIsos = new List<float>();
 
         // Start is called before the first frame update
         void Start()
@@ -25,6 +30,9 @@ namespace MarchingCubesProject
             {
                 VoxCreation = GetComponent<VoxelScript>();
             }
+            defaultIsos.Add(defaultSphereIso);
+            defaultIsos.Add(defaultFractalIso);
+            defaultIsos.Add(defaultDicomIso);
         }
 
         public void UpdatePushed()
@@ -32,48 +40,50 @@ namespace MarchingCubesProject
             VoxCreation.UpdateButtonPushed();
         }
 
-        public void WidthChanged()
+        public void WidthChanged(string text)
         {
-            VoxCreation.Width = Mathf.Clamp(int.Parse(widthField.text), 3, 64);
+            VoxCreation.Width = Mathf.Clamp(int.Parse(text), 3, 128);
             widthField.text = VoxCreation.Width.ToString();
             VoxCreation.NewVoxelsNeeded = true;
             print("width changed to: " + VoxCreation.Width);
         }
 
-        public void HeigthChanged()
+        public void HeigthChanged(string text)
         {
-            VoxCreation.Height = Mathf.Clamp(int.Parse(heigthField.text), 3, 64);
+            VoxCreation.Height = Mathf.Clamp(int.Parse(text), 3, 128);
             heigthField.text = VoxCreation.Height.ToString();
             VoxCreation.NewVoxelsNeeded = true;
             print("width changed to: " + VoxCreation.Height);
         }
 
-        public void LengthChanged()
+        public void LengthChanged(string text)
         {
-            VoxCreation.Length = Mathf.Clamp(int.Parse(lengthField.text), 3, 64);
+            VoxCreation.Length = Mathf.Clamp(int.Parse(text), 3, 128);
             lengthField.text = VoxCreation.Length.ToString();
             VoxCreation.NewVoxelsNeeded = true;
             print("width changed to: " + VoxCreation.Length);
         }
 
-        public void IsoSliderChanged()
+        public void IsoSliderChanged(float value)
         {
-            VoxCreation.Iso = isoSlider.value;
+            VoxCreation.Iso = value;
             print("iso changed to: " + VoxCreation.Iso);
             UpdatePushed();
         }
 
-        public void RadiusSliderChanged()
+        public void ScaleSliderChanged(float value)
         {
-            VoxCreation.Radius = radiusSlider.value;
-            VoxCreation.NewVoxelsNeeded = true;
-            print("radius changed to: " + VoxCreation.Radius);
+            transform.localScale = new Vector3(value, value, value);
+            //VoxCreation.NewVoxelsNeeded = true;
+            //print("radius changed to: " + VoxCreation.Radius);
         }
 
         public void ResetButtonPushed()
         {
-            radiusSlider.value = 8f;
-            isoSlider.value = 0f;
+            scaleSlider.value = 1f;
+            isoSlider.value = defaultIsos[(int)VoxCreation.MObject];
+            VoxCreation.Iso = defaultIsos[(int) VoxCreation.MObject];
+            print("MObject intvalue:" + defaultIsos[(int)VoxCreation.MObject]);
             widthField.text = "16";
             VoxCreation.Width = 16;
             heigthField.text = "16";
@@ -98,6 +108,8 @@ namespace MarchingCubesProject
                     VoxCreation.MObject = MARCHING_OBJECT.DicomScan;
                     break;
             }
+            isoSlider.value = defaultIsos[value];
+            VoxCreation.Iso = defaultIsos[value];
 
             VoxCreation.NewVoxelsNeeded = true;
             UpdatePushed();
@@ -105,11 +117,7 @@ namespace MarchingCubesProject
 
         public void TetrasSelected(bool on)
         {
-            if (on)
-            {
-                VoxCreation.Mode = MARCHING_MODE.Tetrahedron;
-            }
-            else VoxCreation.Mode = MARCHING_MODE.Cubes;
+            VoxCreation.Mode = @on ? MARCHING_MODE.Tetrahedron : MARCHING_MODE.Cubes;
             UpdatePushed();
         }
     }
