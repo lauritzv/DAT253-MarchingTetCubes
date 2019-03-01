@@ -15,7 +15,7 @@ namespace MarchingCubesProject
         public InputField lengthField;
         public Slider radiusSlider;
         public Slider isoSlider;
-        public Dropdown mobject;
+        public Dropdown mObject;
 
 
         // Start is called before the first frame update
@@ -91,8 +91,11 @@ namespace MarchingCubesProject
                 case 0:
                     VoxCreation.MObject = MARCHING_OBJECT.Sphere;
                     break;
-                default:
+                case 1:
                     VoxCreation.MObject = MARCHING_OBJECT.Fractal;
+                    break;
+                case 2:
+                    VoxCreation.MObject = MARCHING_OBJECT.DicomScan;
                     break;
             }
 

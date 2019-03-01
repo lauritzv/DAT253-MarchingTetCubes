@@ -3414,7 +3414,7 @@ MonoBehaviour:
   lengthField: {fileID: 1806779707}
   radiusSlider: {fileID: 2097874414}
   isoSlider: {fileID: 689828028}
-  mobject: {fileID: 796129673}
+  mObject: {fileID: 0}
 --- !u!1 &1530814526
 GameObject:
   m_ObjectHideFlags: 0
