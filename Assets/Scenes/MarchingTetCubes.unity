@@ -220,7 +220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -27.199951}
+  m_AnchoredPosition: {x: -10.7, y: -27.199951}
   m_SizeDelta: {x: 56.6, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120919250
@@ -602,13 +602,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 16
+  m_Text: 32
 --- !u!222 &481391413
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -807,8 +807,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56.9, y: -27.199951}
-  m_SizeDelta: {x: 39.34, y: 30}
+  m_AnchoredPosition: {x: 43.7, y: -27.199951}
+  m_SizeDelta: {x: 44.99, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &521553887
 MonoBehaviour:
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 16
+  m_Text: 32
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -1567,8 +1567,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1098545293}
   m_HandleRect: {fileID: 911784780}
   m_Direction: 0
-  m_MinValue: -2
-  m_MaxValue: 2
+  m_MinValue: -1.1
+  m_MaxValue: 1.1
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2064,13 +2064,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 16
+  m_Text: 32
 --- !u!222 &1080924825
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2398,13 +2398,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 16
+  m_Text: 32
 --- !u!222 &1246340241
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3353,6 +3353,7 @@ GameObject:
   - component: {fileID: 1477449059}
   - component: {fileID: 1477449060}
   - component: {fileID: 1477449061}
+  - component: {fileID: 1477449062}
   m_Layer: 0
   m_Name: Control
   m_TagString: Untagged
@@ -3386,7 +3387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9bafb59e2a71e4c89c86c374021011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_material: {fileID: 2100000, guid: fb8a03accb87f7a4abc7af51618a72be, type: 2}
   Mode: 1
   MObject: 0
   seed: 0
@@ -3417,7 +3417,21 @@ MonoBehaviour:
   mObject: {fileID: 796129673}
   defaultSphereIso: 0
   defaultFractalIso: 0
-  defaultDicomIso: 1.1
+  defaultDicomIso: 0
+  defaultGridSize: {x: 32, y: 32, z: 32}
+--- !u!114 &1477449062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477449058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7700e5799da2c4743a0574a9dbfa38ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_material: {fileID: 2100000, guid: fb8a03accb87f7a4abc7af51618a72be, type: 2}
 --- !u!1 &1530814526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,8 +3954,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 98.9, y: -27.199951}
-  m_SizeDelta: {x: 39.34, y: 30}
+  m_AnchoredPosition: {x: 90.69999, y: -27.199951}
+  m_SizeDelta: {x: 44.99, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1765774022
 MonoBehaviour:
@@ -4014,7 +4028,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 16
+  m_Text: 32
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -4166,8 +4180,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140.9, y: -27.199951}
-  m_SizeDelta: {x: 39.34, y: 30}
+  m_AnchoredPosition: {x: 137.8, y: -27.199951}
+  m_SizeDelta: {x: 44.99, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806779707
 MonoBehaviour:
@@ -4240,7 +4254,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 16
+  m_Text: 32
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0

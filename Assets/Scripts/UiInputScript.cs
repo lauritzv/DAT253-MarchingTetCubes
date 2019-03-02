@@ -9,17 +9,18 @@ namespace MarchingCubesProject
 {
     public class UiInputScript : MonoBehaviour
     {
-        public VoxelScript VoxCreation;
-        public InputField widthField;
-        public InputField heigthField;
-        public InputField lengthField;
-        public Slider scaleSlider;
-        public Slider isoSlider;
-        public Dropdown mObject;
+        [SerializeField] private VoxelScript VoxCreation;
+        [SerializeField] private InputField widthField;
+        [SerializeField] private InputField heigthField;
+        [SerializeField] private InputField lengthField;
+        [SerializeField] private Slider scaleSlider;
+        [SerializeField] private Slider isoSlider;
+        [SerializeField] private Dropdown mObject;
 
-        public float defaultSphereIso = 0f;
-        public float defaultFractalIso = 0f;
-        public float defaultDicomIso = 1.1f;
+        [SerializeField] private float defaultSphereIso = 0f;
+        [SerializeField] private float defaultFractalIso = 0f;
+        [SerializeField] private float defaultDicomIso = 0f;
+        [SerializeField] private Vector3 defaultGridSize = new Vector3(32f,32f,32f);
 
         private List<float> defaultIsos = new List<float>();
 
@@ -33,6 +34,23 @@ namespace MarchingCubesProject
             defaultIsos.Add(defaultSphereIso);
             defaultIsos.Add(defaultFractalIso);
             defaultIsos.Add(defaultDicomIso);
+
+            ResetToDefaultValues();
+            UpdatePushed();
+        }
+        private void ResetToDefaultValues()
+        {
+            scaleSlider.value = 1f;
+            isoSlider.value = defaultIsos[(int)VoxCreation.MObject];
+            VoxCreation.Iso = defaultIsos[(int)VoxCreation.MObject];
+            print("MObject intvalue:" + defaultIsos[(int)VoxCreation.MObject]);
+            widthField.text = defaultGridSize.x.ToString();
+            VoxCreation.Width = Mathf.RoundToInt(defaultGridSize.x);
+            heigthField.text = defaultGridSize.y.ToString();
+            VoxCreation.Height = Mathf.RoundToInt(defaultGridSize.y);
+            lengthField.text = defaultGridSize.z.ToString();
+            VoxCreation.Length = Mathf.RoundToInt(defaultGridSize.z);
+            VoxCreation.NewVoxelsNeeded = true;
         }
 
         public void UpdatePushed()
@@ -42,7 +60,7 @@ namespace MarchingCubesProject
 
         public void WidthChanged(string text)
         {
-            VoxCreation.Width = Mathf.Clamp(int.Parse(text), 3, 128);
+            VoxCreation.Width = Mathf.Clamp(int.Parse(text), 3, 354);
             widthField.text = VoxCreation.Width.ToString();
             VoxCreation.NewVoxelsNeeded = true;
             print("width changed to: " + VoxCreation.Width);
@@ -50,18 +68,18 @@ namespace MarchingCubesProject
 
         public void HeigthChanged(string text)
         {
-            VoxCreation.Height = Mathf.Clamp(int.Parse(text), 3, 128);
+            VoxCreation.Height = Mathf.Clamp(int.Parse(text), 3, 354);
             heigthField.text = VoxCreation.Height.ToString();
             VoxCreation.NewVoxelsNeeded = true;
-            print("width changed to: " + VoxCreation.Height);
+            //print("width changed to: " + VoxCreation.Height);
         }
 
         public void LengthChanged(string text)
         {
-            VoxCreation.Length = Mathf.Clamp(int.Parse(text), 3, 128);
+            VoxCreation.Length = Mathf.Clamp(int.Parse(text), 3, 354);
             lengthField.text = VoxCreation.Length.ToString();
             VoxCreation.NewVoxelsNeeded = true;
-            print("width changed to: " + VoxCreation.Length);
+            //print("width changed to: " + VoxCreation.Length);
         }
 
         public void IsoSliderChanged(float value)
@@ -74,23 +92,11 @@ namespace MarchingCubesProject
         public void ScaleSliderChanged(float value)
         {
             transform.localScale = new Vector3(value, value, value);
-            //VoxCreation.NewVoxelsNeeded = true;
-            //print("radius changed to: " + VoxCreation.Radius);
         }
 
         public void ResetButtonPushed()
         {
-            scaleSlider.value = 1f;
-            isoSlider.value = defaultIsos[(int)VoxCreation.MObject];
-            VoxCreation.Iso = defaultIsos[(int) VoxCreation.MObject];
-            print("MObject intvalue:" + defaultIsos[(int)VoxCreation.MObject]);
-            widthField.text = "16";
-            VoxCreation.Width = 16;
-            heigthField.text = "16";
-            VoxCreation.Height = 16;
-            lengthField.text = "16";
-            VoxCreation.Length = 16;
-            VoxCreation.NewVoxelsNeeded = true;
+            ResetToDefaultValues();
             UpdatePushed();
         }
 
