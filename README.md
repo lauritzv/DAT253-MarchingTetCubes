@@ -7,3 +7,5 @@ Created for the DAT253 course at [Western Norway University of Applied Sciences 
 The marching algorithms are from [this repository](https://github.com/Scrawk/Marching-Cubes) by [Scrawk](https://github.com/Scrawk/), and can be found in the 3rdparty asset directory.
 
 Uses the ["Fellow Oak Dicom" library](https://github.com/fo-dicom/fo-dicom) for loading and reading Dicom data sets.
+
+![Screenshot](/screenshot01.jpg?raw=true "screenshot")
