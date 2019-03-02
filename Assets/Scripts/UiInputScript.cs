@@ -24,7 +24,6 @@ namespace MarchingCubesProject
 
         private List<float> defaultIsos = new List<float>();
 
-        // Start is called before the first frame update
         void Start()
         {
             if (VoxCreation == null)
@@ -71,7 +70,6 @@ namespace MarchingCubesProject
             VoxCreation.Height = Mathf.Clamp(int.Parse(text), 3, 354);
             heigthField.text = VoxCreation.Height.ToString();
             VoxCreation.NewVoxelsNeeded = true;
-            //print("width changed to: " + VoxCreation.Height);
         }
 
         public void LengthChanged(string text)
@@ -79,7 +77,6 @@ namespace MarchingCubesProject
             VoxCreation.Length = Mathf.Clamp(int.Parse(text), 3, 354);
             lengthField.text = VoxCreation.Length.ToString();
             VoxCreation.NewVoxelsNeeded = true;
-            //print("width changed to: " + VoxCreation.Length);
         }
 
         public void IsoSliderChanged(float value)
@@ -102,18 +99,7 @@ namespace MarchingCubesProject
 
         public void MObjectDropdownChanged(int value)
         {
-            switch (value)
-            {
-                case 0:
-                    VoxCreation.MObject = MARCHING_OBJECT.Sphere;
-                    break;
-                case 1:
-                    VoxCreation.MObject = MARCHING_OBJECT.Fractal;
-                    break;
-                case 2:
-                    VoxCreation.MObject = MARCHING_OBJECT.DicomScan;
-                    break;
-            }
+            VoxCreation.MObject = (MARCHING_OBJECT) value; // 0: Sphere, 1: Fractal, 2: DicomScan
             isoSlider.value = defaultIsos[value];
             VoxCreation.Iso = defaultIsos[value];
 

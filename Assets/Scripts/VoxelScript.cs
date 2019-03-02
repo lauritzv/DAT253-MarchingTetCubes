@@ -32,7 +32,7 @@ namespace MarchingCubesProject
         private float[] _voxels = null;
 
         /// <summary>
-        /// voxels must be recalculated if Width/Heigth/Length/Radius has changed
+        /// voxels must be recalculated if Width/Heigth/Length or object has changed
         /// value set from UiInputScript and CreateNewVoxels
         /// </summary>
         [HideInInspector] public bool NewVoxelsNeeded = true;
@@ -64,10 +64,8 @@ namespace MarchingCubesProject
             {
                 Slice.initDicom();
 
-                // absolute path: string dicomfilepath = @"D:\Hoyskolen\ctScans++\Bag scan\55540002";
                 //relative path :
-                string dicomfilepath =
-                    Application.dataPath +
+                string dicomfilepath = Application.dataPath +
                     @"/../dicomdata/"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
 
                 _numSlices = _numSlices = Slice.getnumslices(dicomfilepath);
@@ -108,7 +106,7 @@ namespace MarchingCubesProject
             else if (MObject == MARCHING_OBJECT.Sphere)
             {
                 Vector3 origo = new Vector3(Radius, Radius, Radius);
-                _voxels = GenerateSphereVoxels(Radius, Width, Height, Length, origo);
+                _voxels = GenerateSphereVoxels(Width, Height, Length, Radius, origo);
             }
             else if (MObject == MARCHING_OBJECT.DicomScan)
             {
@@ -175,7 +173,7 @@ namespace MarchingCubesProject
         /// Generates voxels in a sphere shape
         /// radius and origo are co-dependent, and probably superfluous
         /// </summary>
-        private float[] GenerateSphereVoxels(float radius, int width, int height, int length, Vector3 origo)
+        private float[] GenerateSphereVoxels(int width, int height, int length, float radius, Vector3 origo)
         {
             float[] voxels = new float[width * height * length];
             float stepsizeX = 2f * radius / (width - 1f);
@@ -188,12 +186,7 @@ namespace MarchingCubesProject
                 {
                     for (int z = 0; z < length; z++)
                     {
-                        //float fx = x / (width - 1f);
-                        //float fy = y / (height - 1f);
-                        //float fz = z / (length - 1f);
-
                         int idx = x + y * width + z * width * height;
-                        //float val = GetSphereLocVal(new Vector3(fx, fy, fz), radius, origo);
                         float val = GetSphereLocVal(new Vector3(x * stepsizeX, y * stepsizeY, z * stepsizeZ), radius, origo);
 
                         voxels[idx] = val;
@@ -205,7 +198,6 @@ namespace MarchingCubesProject
 
         private float GetSphereLocVal(Vector3 p, float radius, Vector3 origo)
         {
-            //return Vector3.Magnitude(p - origo);
             return 1f - Vector3.Magnitude(p - origo) / radius;
         }
 
