@@ -46,11 +46,11 @@ namespace MarchingCubesProject
             _isolineMesh.RecalculateBounds();
         }
 
-        public void MeshToFile(string filename)
+        public void MeshToFile(string savePath, string filename)
         {
             if (verts.Count > 0 && indices.Count > 0 && filename.Length > 0)
             {
-                StreamWriter stream = new StreamWriter(filename);
+                StreamWriter stream = new StreamWriter(savePath + filename + ".obj");
                 stream.WriteLine("g " + "Mesh");
                 System.Globalization.CultureInfo dotasDecimalSeparator = new System.Globalization.CultureInfo("en-US");
 
@@ -63,7 +63,7 @@ namespace MarchingCubesProject
                     stream.WriteLine(string.Format("f {0}/{0}/{0} {1}/{1}/{1} {2}/{2}/{2}", indices[i] + 1, indices[i + 1] + 1, indices[i + 2] + 1));
 
                 stream.Close();
-                print("Mesh saved to file: " + filename);
+                print("Mesh saved to file: " + savePath + filename + ".obj");
             }
         }
 
@@ -136,6 +136,7 @@ namespace MarchingCubesProject
                 go.AddComponent<MeshRenderer>();
                 go.GetComponent<Renderer>().material = m_material;
                 go.GetComponent<MeshFilter>().mesh = mesh;
+                go.transform.localScale = new Vector3(1f,1f,1f);
                 go.transform.localPosition = new Vector3(-width / 2f, -height / 2f, -length / 2f);
 
                 meshes.Add(go);
