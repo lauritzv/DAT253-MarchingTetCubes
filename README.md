@@ -8,4 +8,10 @@ The marching algorithms are from [this repository](https://github.com/Scrawk/Mar
 
 Uses the ["Fellow Oak Dicom" library](https://github.com/fo-dicom/fo-dicom) for loading and reading Dicom data sets.
 
+Screenshot :
+
 ![Screenshot](/screenshot01.jpg?raw=true "screenshot")
+
+3D printed model created from the OBJ-file written from this program (obj-file needs to be repaired in meshlab or another 3d application before use) :
+
+![3D printed model](/3dprint.jpg?raw=true "screenshot")
