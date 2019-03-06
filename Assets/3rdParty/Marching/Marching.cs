@@ -9,7 +9,7 @@ namespace MarchingCubesProject
     public abstract class Marching
     {
 
-        public float Surface { get; set; }
+        public float Surface { get; set; } // Iso value
 
         private float[] Cube { get; set; }
 

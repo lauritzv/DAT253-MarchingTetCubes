@@ -17,10 +17,12 @@ namespace MarchingCubesProject
 
         //private int segments = 36;
         private MeshScript mscript;
+        private VoxelScript vscript;
 
         public bool lerp = true;
 
         private float m_slice = 50f;
+        private GameObject controlObject;
 
         public float slice
         {
@@ -61,7 +63,12 @@ namespace MarchingCubesProject
         {
             print("void Start was called");
             setSlice(50); // shows a slice
-            mscript = GameObject.Find("GameObjectMesh").GetComponent<MeshScript>();
+
+            if (controlObject == null)
+                controlObject = GameObject.Find("Control");
+
+            mscript = controlObject.GetComponent<MeshScript>();
+            vscript = controlObject.GetComponent<VoxelScript>();
         }
 
         void CreateIsoLine(Texture2D tex)

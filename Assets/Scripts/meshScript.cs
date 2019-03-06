@@ -82,7 +82,10 @@ namespace MarchingCubesProject
             if (mode == MARCHING_MODE.Tetrahedron)
                 marching = new MarchingTertrahedron();
 
-            else marching = new MarchingCubes();
+            else if (mode == MARCHING_MODE.Cubes)
+                marching = new MarchingCubes();
+
+            else marching = new NaiveMarchingTetrahedron();
 
             //Surface is the value that represents the surface of mesh
             //For example the perlin noise has a range of -1 to 1 so the mid point is where we want the surface to cut through.
