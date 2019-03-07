@@ -13,6 +13,8 @@ namespace MarchingCubesProject
 
         private float[] Cube { get; set; }
 
+        internal bool UseNaiveTetrahedronOffsets = false;
+
         /// <summary>
         /// Winding order of triangles use 2,1,0 or 0,1,2
         /// </summary>
@@ -52,9 +54,18 @@ namespace MarchingCubesProject
                         //Get the values in the 8 neighbours which make up a cube
                         for (i = 0; i < 8; i++)
                         {
-                            ix = x + VertexOffset[i, 0];
-                            iy = y + VertexOffset[i, 1];
-                            iz = z + VertexOffset[i, 2];
+                            if (UseNaiveTetrahedronOffsets)
+                            {
+                                ix = x + VertexOffsetNaiveTetrahedron[i, 0];
+                                iy = y + VertexOffsetNaiveTetrahedron[i, 1];
+                                iz = z + VertexOffsetNaiveTetrahedron[i, 2];
+                            }
+                            else
+                            {
+                                ix = x + VertexOffset[i, 0];
+                                iy = y + VertexOffset[i, 1];
+                                iz = z + VertexOffset[i, 2];
+                            }
 
                             Cube[i] = voxels[ix + iy * width + iz * width * height];
                         }
@@ -89,11 +100,20 @@ namespace MarchingCubesProject
         /// vertexOffset[8][3]
         /// </summary>
         protected static readonly int[,] VertexOffset = new int[,]
-	    {
-	        {0, 0, 0},{1, 0, 0},{1, 1, 0},{0, 1, 0},
-	        {0, 0, 1},{1, 0, 1},{1, 1, 1},{0, 1, 1}
-	    };
+        {
+            {0, 0, 0},{1, 0, 0},{1, 1, 0},{0, 1, 0},
+            {0, 0, 1},{1, 0, 1},{1, 1, 1},{0, 1, 1}
+        };
 
+        /// <summary>
+        /// Because the cube indexing is different when 
+        /// </summary>
+        protected static readonly int[,] VertexOffsetNaiveTetrahedron = new int[,]
+        {
+            {0, 0, 0},{1, 0, 0},{0, 1, 0},{1, 1, 0},
+            {0, 0, 1},{1, 0, 1},{0, 1, 1},{1, 1, 1}
+        };
+        
     }
 
 }
