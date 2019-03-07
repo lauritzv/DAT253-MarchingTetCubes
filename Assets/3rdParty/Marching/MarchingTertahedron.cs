@@ -15,7 +15,7 @@ namespace MarchingCubesProject
 
         private Vector3[] TetrahedronPosition { get; set; }
 
-        private float[] TetrahedronValue { get; set; }
+        private float[] TetrahedronValue { get; set; } // float val of vert
 
         public MarchingTertrahedron(float surface = 0.5f)
             : base(surface)
@@ -85,6 +85,9 @@ namespace MarchingCubesProject
                     offset = GetOffset(TetrahedronValue[vert0], TetrahedronValue[vert1]);
                     invOffset = 1.0f - offset;
 
+                    //EdgeVertex[i].x = TetrahedronPosition[vert0].x + TetrahedronPosition[vert1].x;
+                    //EdgeVertex[i].y = TetrahedronPosition[vert0].y + TetrahedronPosition[vert1].y;
+                    //EdgeVertex[i].z = TetrahedronPosition[vert0].z + TetrahedronPosition[vert1].z;
                     EdgeVertex[i].x = invOffset * TetrahedronPosition[vert0].x + offset * TetrahedronPosition[vert1].x;
                     EdgeVertex[i].y = invOffset * TetrahedronPosition[vert0].y + offset * TetrahedronPosition[vert1].y;
                     EdgeVertex[i].z = invOffset * TetrahedronPosition[vert0].z + offset * TetrahedronPosition[vert1].z;
@@ -152,6 +155,8 @@ namespace MarchingCubesProject
 	        0x35,   // 0011 0101
 	        0x38,   // 0011 1000
 
+            // mirrored for inverted cases:
+
 	        0x38,   // 0011 1000
 	        0x35,   // 0011 0101
 	        0x2b,   // 0010 1011
@@ -174,8 +179,8 @@ namespace MarchingCubesProject
             {-1, -1, -1, -1, -1, -1, -1},
             { 0,  3,  2, -1, -1, -1, -1},
             { 0,  1,  4, -1, -1, -1, -1},
+            // 0, 3, 1, 1, 3, 2
             { 1,  4,  2,  2,  4,  3, -1},
-
             { 1,  2,  5, -1, -1, -1, -1},
             { 0,  3,  5,  0,  5,  1, -1},
             { 0,  2,  5,  0,  5,  4, -1},

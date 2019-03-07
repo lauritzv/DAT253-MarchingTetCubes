@@ -17,6 +17,7 @@ namespace MarchingCubesProject
         [SerializeField] private Slider scaleSlider;
         [SerializeField] private Slider isoSlider;
         [SerializeField] private Dropdown mObject;
+        [SerializeField] private Dropdown mAlgorithm;
         [SerializeField] private Toggle autoupdToggle;
 
         [SerializeField] private float defaultSphereIso = 0f;
@@ -130,11 +131,29 @@ namespace MarchingCubesProject
             UpdatePushed();
         }
 
-        public void TetrasSelected(bool on)
+        //public void TetrasSelected(bool on)
+        //{
+        //    VoxCreation.Mode = @on ? MARCHING_MODE.Tetrahedron : MARCHING_MODE.Cubes;
+        //    UpdatePushed();
+        //}
+
+        public void MAlgorithmDropdownChanged(int value)
         {
-            VoxCreation.Mode = @on ? MARCHING_MODE.Tetrahedron : MARCHING_MODE.Cubes;
+            switch (value)
+            {
+                case 0:
+                    VoxCreation.Mode = MARCHING_MODE.Tetrahedron;
+                    break;
+                case 1:
+                    VoxCreation.Mode = MARCHING_MODE.NaiveTetrahedron;
+                    break;
+                case 2:
+                    VoxCreation.Mode = MARCHING_MODE.Cubes;
+                    break;
+            }
             UpdatePushed();
         }
+
         public void ToggleAutoUpdate(bool on)
         {
             _autoUpdate = @on ? true : false;

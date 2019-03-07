@@ -6,11 +6,10 @@ using ProceduralNoiseProject;
 
 namespace MarchingCubesProject
 {
-    public enum MARCHING_MODE { Cubes, Tetrahedron };
+    public enum MARCHING_MODE { Cubes, Tetrahedron, NaiveTetrahedron };
     public enum MARCHING_OBJECT { Sphere, Fractal, DicomScan }
     public class VoxelScript : MonoBehaviour
     {
-        //public Material m_material;
         private MeshScript _meshScript;
         [HideInInspector] public MARCHING_MODE Mode = MARCHING_MODE.Tetrahedron;
         [HideInInspector] public MARCHING_OBJECT MObject = MARCHING_OBJECT.Sphere;
