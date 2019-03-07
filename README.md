@@ -4,7 +4,7 @@
 
 Created for the DAT253 course at [Western Norway University of Applied Sciences (HVL)](https://www.hvl.no).
 
-The marching algorithms are from [this repository](https://github.com/Scrawk/Marching-Cubes) by [Scrawk](https://github.com/Scrawk/), and can be found in the 3rdparty asset directory.
+The (non-naive) marching tetrahedron and marching cubes algorithms are from [this repository](https://github.com/Scrawk/Marching-Cubes) by [Scrawk](https://github.com/Scrawk/) (Based on [Marching Cubes Example Program](http://www.siafoo.net/snippet/100) by Cory Bloyd), and can be found in the 3rdparty asset directory.
 
 Uses the ["Fellow Oak Dicom" library](https://github.com/fo-dicom/fo-dicom) for loading and reading Dicom data sets.
 
