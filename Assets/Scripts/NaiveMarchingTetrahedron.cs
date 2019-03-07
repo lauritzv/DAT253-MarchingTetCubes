@@ -5,6 +5,9 @@ using UnityEngine.Experimental.PlayerLoop;
 
 namespace MarchingCubesProject
 {
+    /// <summary>
+    /// An implementation of Marching Tetrahedron that's based on slides from the DAT253 course at HVL
+    /// </summary>
     public class NaiveMarchingTetrahedron : Marching
     {
         private Vector3[] EdgeVertex { get; set; }
@@ -97,7 +100,6 @@ namespace MarchingCubesProject
                     p3 = TetraInterpolate(v3, v4, d3, d4);
                     doTriangle(p1, p2, p3, vertList, indexList);
                     break;
-                
                 case "1101": // p13 p34 p23
                     p1 = TetraInterpolate(v1, v3, d1, d3);
                     p2 = TetraInterpolate(v3, v4, d3, d4);
@@ -180,7 +182,7 @@ namespace MarchingCubesProject
                     p4 = TetraInterpolate(v2, v4, d2, d4);
                     doQuad(p1, p2, p3, p4, false, vertList, indexList);
                     break;
-                default:
+                default: //"0000", "1111", or (hopefully not) errors
                     break;
             }
         }
@@ -212,8 +214,7 @@ namespace MarchingCubesProject
 
         Vector3 TetraInterpolate(Vector3 p1, Vector3 p2, float d1, float d2)
         {
-            float delta = 0.5f;
-            delta = (Surface - Mathf.Min(d1, d2)) / (Mathf.Max(d1, d2) - Mathf.Min(d1, d2));
+            float delta = (Surface - Mathf.Min(d1, d2)) / (Mathf.Max(d1, d2) - Mathf.Min(d1, d2));
             if (d2 < d1)
                 delta = 1.0f - delta;
 
