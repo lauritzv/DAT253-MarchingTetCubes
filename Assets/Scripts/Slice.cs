@@ -133,8 +133,6 @@ class Slice : IComparable   // IComparable so it can be sorted by sort()
         slicePixels = Dicom.IO.ByteConverter.ToArray<ushort>(buffer);
         //byte[] bSlicePixels = Dicom.IO.ByteConverter.ToArray<byte>(buffer);
 
-
-
         // alternative:
         //var header = DicomPixelData.Create(dicomFile.Dataset);
         //var pixelData = PixelDataFactory.Create(header, 0);
