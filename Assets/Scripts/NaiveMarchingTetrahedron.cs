@@ -86,108 +86,106 @@ namespace MarchingCubesProject
                            + (d3 > Surface ? "1" : "0")
                            + (d4 > Surface ? "1" : "0");
 
+            bool invert = cases[0] == '1';
+
             switch (cases)
             {
                 case "1110": // p14 p24 p34
                     p1 = TetraInterpolate(v1, v4, d1, d4);
                     p2 = TetraInterpolate(v2, v4, d2, d4);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
-                    doTriangle(p1, p3, p2, vertList, indexList);
+                    DoTriangle(p1, p3, p2, vertList, indexList);
                     break;
                 case "0001":
                     p1 = TetraInterpolate(v1, v4, d1, d4);
                     p2 = TetraInterpolate(v2, v4, d2, d4);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
-                    doTriangle(p1, p2, p3, vertList, indexList);
+                    DoTriangle(p1, p2, p3, vertList, indexList);
                     break;
                 case "1101": // p13 p34 p23
                     p1 = TetraInterpolate(v1, v3, d1, d3);
                     p2 = TetraInterpolate(v3, v4, d3, d4);
                     p3 = TetraInterpolate(v2, v3, d2, d3);
-                    doTriangle(p1, p3, p2, vertList, indexList);
+                    DoTriangle(p1, p3, p2, vertList, indexList);
                     break;
                 case "0010":
                     p1 = TetraInterpolate(v1, v3, d1, d3);
                     p2 = TetraInterpolate(v3, v4, d3, d4);
                     p3 = TetraInterpolate(v2, v3, d2, d3);
-                    doTriangle(p1, p2, p3, vertList, indexList);
+                    DoTriangle(p1, p2, p3, vertList, indexList);
                     break;
-                
                 case "1011": // p12 p23 p24
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v2, v3, d2, d3);
                     p3 = TetraInterpolate(v2, v4, d2, d4);
-                    doTriangle(p1, p3, p2, vertList, indexList);
+                    DoTriangle(p1, p3, p2, vertList, indexList);
                     break;
                 case "0100":
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v2, v3, d2, d3);
                     p3 = TetraInterpolate(v2, v4, d2, d4);
-                    doTriangle(p1, p2, p3, vertList, indexList);
+                    DoTriangle(p1, p2, p3, vertList, indexList);
                     break;
-                
                 case "1000": // p12 p13 p14
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v1, v3, d1, d3);
                     p3 = TetraInterpolate(v1, v4, d1, d4);
-                    doTriangle(p1, p3, p2, vertList, indexList);
+                    DoTriangle(p1, p3, p2, vertList, indexList);
                     break;
                 case "0111":
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v1, v3, d1, d3);
                     p3 = TetraInterpolate(v1, v4, d1, d4);
-                    doTriangle(p1, p2, p3, vertList, indexList);
+                    DoTriangle(p1, p2, p3, vertList, indexList);
                     break;
-                
                 case "1100": // p13 p14 p24 p23
                     p1 = TetraInterpolate(v1, v3, d1, d3);
                     p2 = TetraInterpolate(v1, v4, d1, d4);
                     p3 = TetraInterpolate(v2, v4, d2, d4);
                     p4 = TetraInterpolate(v2, v3, d2, d3);
-                    doQuad(p1, p2, p3, p4, true, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
                 case "0011":
                     p1 = TetraInterpolate(v1, v3, d1, d3);
                     p2 = TetraInterpolate(v1, v4, d1, d4);
                     p3 = TetraInterpolate(v2, v4, d2, d4);
                     p4 = TetraInterpolate(v2, v3, d2, d3);
-                    doQuad(p1, p2, p3, p4, false, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
-                
                 case "1010": // p12 p23 p34 p14
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v2, v3, d2, d3);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
                     p4 = TetraInterpolate(v1, v4, d1, d4);
-                    doQuad(p1, p2, p3, p4, true, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
                 case "0101":
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v2, v3, d2, d3);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
                     p4 = TetraInterpolate(v1, v4, d1, d4);
-                    doQuad(p1, p2, p3, p4, false, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
                 case "1001": // p12 p13 p34 p24
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v1, v3, d1, d3);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
                     p4 = TetraInterpolate(v2, v4, d2, d4);
-                    doQuad(p1, p2, p3, p4, true, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
                 case "0110":
                     p1 = TetraInterpolate(v1, v2, d1, d2);
                     p2 = TetraInterpolate(v1, v3, d1, d3);
                     p3 = TetraInterpolate(v3, v4, d3, d4);
                     p4 = TetraInterpolate(v2, v4, d2, d4);
-                    doQuad(p1, p2, p3, p4, false, vertList, indexList);
+                    DoQuad(p1, p2, p3, p4, invert, vertList, indexList);
                     break;
                 default: //"0000", "1111", or (hopefully not) errors
                     break;
             }
         }
 
-        void doTriangle(Vector3 p1, Vector3 p2, Vector3 p3, IList<Vector3> vertList, IList<int> indexList)
+        private void DoTriangle(Vector3 p1, Vector3 p2, Vector3 p3, IList<Vector3> vertList, IList<int> indexList)
         {
             int index = indexList.Count -1;
             vertList.Add(p1);
@@ -198,21 +196,21 @@ namespace MarchingCubesProject
             indexList.Add(index++);
         }
 
-        void doQuad(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, bool flip, IList<Vector3> vertList, IList<int> indexList)
+        private void DoQuad(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, bool flip, IList<Vector3> vertList, IList<int> indexList)
         {
             if (flip)
             {
-                doTriangle(p1, p4, p2, vertList, indexList);
-                doTriangle(p2, p4, p3,vertList, indexList);
+                DoTriangle(p1, p4, p2, vertList, indexList);
+                DoTriangle(p2, p4, p3,vertList, indexList);
             }
             else
             {
-                doTriangle(p1, p2, p4, vertList, indexList);
-                doTriangle(p2, p3, p4, vertList, indexList);
+                DoTriangle(p1, p2, p4, vertList, indexList);
+                DoTriangle(p2, p3, p4, vertList, indexList);
             }
         }
 
-        Vector3 TetraInterpolate(Vector3 p1, Vector3 p2, float d1, float d2)
+        private Vector3 TetraInterpolate(Vector3 p1, Vector3 p2, float d1, float d2)
         {
             float delta = (Surface - Mathf.Min(d1, d2)) / (Mathf.Max(d1, d2) - Mathf.Min(d1, d2));
             if (d2 < d1)
