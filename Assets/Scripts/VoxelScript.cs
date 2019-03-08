@@ -28,7 +28,7 @@ namespace MarchingCubesProject
         private List<GameObject> meshes = new List<GameObject>();
         //private Marching marching;
         private GameObject go;
-        private float[] _voxels = null;
+        [HideInInspector] public float[] _voxels = null;
 
         /// <summary>
         /// voxels must be recalculated if Width/Heigth/Length or object has changed

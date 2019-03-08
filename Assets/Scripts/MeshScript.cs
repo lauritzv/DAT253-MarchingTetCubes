@@ -17,36 +17,33 @@ namespace MarchingCubesProject
         private Marching marching;
         private List<Vector3> verts = new List<Vector3>();
         private List<int> indices = new List<int>();
-        private Mesh _isolineMesh;
+        public Mesh _isolineMesh;
+        public GameObject isoGo;
         [SerializeField] private int _maxVertsPerMesh = 30000; //must be divisible by 3, ie 3 verts == 1 triangle
+        /// <summary>
+        /// // render points instead of triangles. (For troubleshooting)
+        /// </summary>
         [SerializeField] private bool pointmode = false;
         [SerializeField] private bool disableBackfaceCulling = true;
+
+        private float _isolineScaleFactor = 24f;
 
 
         void Start()
         {
-            //PrepareGameobjectForIsolines();
+            _isolineMesh = isoGo.GetComponent<MeshFilter>().mesh;
         }
 
-        /// <summary>
-        /// programatically create meshfilter and meshrenderer and add to gameobject this script is attached to.
-        /// </summary>
-        private void PrepareGameobjectForIsolines()
+        public void createIsolineGeometry(List<Vector3> lineVertices, List<int> lineIndices, int width, int height)
         {
-            GameObject isoGo = gameObject;
-            MeshFilter meshFilter = (MeshFilter)isoGo.AddComponent(typeof(MeshFilter));
-            MeshRenderer renderer = isoGo.AddComponent(typeof(MeshRenderer)) as MeshRenderer;
-        }
-
-        public void createIsolineGeometry(List<Vector3> lineVertices, List<int> lineIndices)
-        {
-            _isolineMesh = GetComponent<MeshFilter>().mesh;
             _isolineMesh.Clear();
-            _isolineMesh.SetVertices(lineVertices);
 
-            // https://docs.unity3d.com/ScriptReference/MeshTopology.html
+            _isolineMesh.SetVertices(lineVertices);
             _isolineMesh.SetIndices(lineIndices.ToArray(), MeshTopology.Lines,0); // MeshTopology.Points  MeshTopology.LineStrip   MeshTopology.Triangles
+
             _isolineMesh.RecalculateBounds();
+
+            isoGo.transform.localScale = new Vector3(_isolineScaleFactor / width, _isolineScaleFactor / height, 1f);
         }
 
         public void MeshToFile(string savePath, string filename)
@@ -161,6 +158,13 @@ namespace MarchingCubesProject
                 print("surfaces generated!");
             }
         }
+
+
+        /// <summary>
+        /// Doubles the mesh faces to disable backface culling. (for troubleshooting)
+        /// http://answers.unity.com/answers/723483/view.html
+        /// </summary>
+        /// <param name="mesh"></param>
         public void DisableBackfaceCulling(Mesh mesh)
         {
 

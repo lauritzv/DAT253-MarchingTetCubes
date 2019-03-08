@@ -10,98 +10,105 @@ namespace MarchingCubesProject
 {
     public class QuadScript : MonoBehaviour
     {
-        public float[] Voxels;
-        public int Width, Heigth, Length;
+        //public float[] Voxels;
+        //public int Width, Heigth, Length;
 
-        private Texture2D texture;
+        //private Texture2D texture;
 
         //private int segments = 36;
-        private MeshScript mscript;
-        private VoxelScript vscript;
+        public MeshScript mscript;
+        public VoxelScript vscript;
 
         public bool lerp = true;
 
-        private float m_slice = 50f;
-        private GameObject controlObject;
-
+        private float m_slice = 0.5f;
+        private int sliceNr = 0;
         public float slice
         {
             get { return m_slice; }
             set
             {
-                if (m_slice == value)
+                if (Math.Abs(m_slice - value) < .0001f)
                     return;
 
                 m_slice = value;
-                setSlice((int) value);
+                sliceNr = setSlice(value);
+                CreateIsoLine(sliceNr);
             }
         }
 
-        private float m_iso = 0.5f;
+        private float m_iso = 0f;
 
         public float iso
         {
             get { return m_iso; }
             set
             {
-                if (m_iso == value)
+                if (Math.Abs(m_iso - value) < .0001f)
                     return;
 
+                print(value);
                 m_iso = value;
-                CreateIsoLine(texture);
+                CreateIsoLine(sliceNr);
             }
         }
 
         // location of center of 'imaginary' sphere
-        private Vector3 ORIGO = new Vector3(50f, 50f, 50f);
+        //private Vector3 ORIGO = new Vector3(50f, 50f, 50f);
 
-        //size of half a texture pixel
-        private const float pxsize = 1f;
+        //size of a texture pixel
+        private float pxsize = 1f;
 
         // Start is called once when the application is run
         void Start()
         {
-            print("void Start was called");
-            setSlice(50); // shows a slice
 
-            if (controlObject == null)
-                controlObject = GameObject.Find("Control");
-
-            mscript = controlObject.GetComponent<MeshScript>();
-            vscript = controlObject.GetComponent<VoxelScript>();
+            mscript = GetComponent<MeshScript>();
+            vscript = GetComponent<VoxelScript>();
+            sliceNr = setSlice(slice);
+            CreateIsoLine(sliceNr);
         }
 
-        void CreateIsoLine(Texture2D tex)
+        void CreateIsoLine(int z)
         {
-            if (tex == null)
-                tex = (Texture2D) GetComponent<Renderer>().material.mainTexture;
+            //if (tex == null)
+            //    tex = (Texture2D) GetComponent<Renderer>().material.mainTexture;
 
-            int ht = tex.height;
-            int width = tex.width;
+            //int ht = tex.height;
+            //int width = tex.width;
             List<Vector3> vertices = new List<Vector3>();
             List<int> indices = new List<int>();
             int index = 0;
 
-            for (int i = 1; i < width; i++)
+
+            
+            
+            for (int i = 1; i < vscript.Width; i++)
             {
-                for (int j = 1; j < ht; j++)
+                for (int j = 1; j < vscript.Height; j++)
                 {
+                    
+                    // int idx = i + j * width + z * width * height;
                     /*  d------c
                      *  |      |
                      *  |      |
                      *  a------b
                      */
 
-                    float bl = tex.GetPixel(i - 1, j - 1).grayscale; // bottom left A
+                    // bottom left A
+                    float bl = vscript._voxels[(i - 1) + (j - 1) * vscript.Width + z * vscript.Width * vscript.Height];
                     bool pa = bl > m_iso;
 
-                    float br = tex.GetPixel(i, j - 1).grayscale; // bottom right B
+                    // bottom right B
+                    float br = vscript._voxels[(i) + (j - 1) * vscript.Width + z * vscript.Width * vscript.Height];
                     bool pb = br > m_iso;
 
-                    float tr = tex.GetPixel(i, j).grayscale; // top right C
+                    // top right C
+                    float tr = vscript._voxels[(i) + (j) * vscript.Width + z * vscript.Width * vscript.Height];
                     bool pc = tr > m_iso;
 
-                    float tl = tex.GetPixel(i - 1, j).grayscale; // top left D
+                    // top left D
+                    float tl = vscript._voxels[(i - 1) + (j) * vscript.Width + z * vscript.Width * vscript.Height];
                     bool pd = tl > m_iso;
 
                     // delta offsets
@@ -122,15 +129,14 @@ namespace MarchingCubesProject
                         else db = (iso - bl) / (br - bl);
                     }
 
-                    string tup = "";
-                    if (pa) tup += '1';
-                    else tup += '0';
-                    if (pb) tup += '1';
-                    else tup += '0';
-                    if (pc) tup += '1';
-                    else tup += '0';
-                    if (pd) tup += '1';
-                    else tup += '0';
+                    string tup = (pa ? "1" : "0")
+                                   + (pb ? "1" : "0")
+                                   + (pc ? "1" : "0")
+                                   + (pd ? "1" : "0");
+
+                    Vector3 ORIGO = transform.localPosition;
+                    ORIGO.x -= vscript.Width *.5f;
+                    ORIGO.y -= vscript.Height *.5f;
 
                     Vector3 px = new Vector3(i - pxsize * .5f + ORIGO.x, j - pxsize * .5f + ORIGO.y);
 
@@ -141,9 +147,6 @@ namespace MarchingCubesProject
 
                     switch (tup)
                     {
-                        case "0000": //0
-                        case "1111": //15
-                            break;
                         case "1000": //1
                             vertices.Add(b);
                             vertices.Add(l);
@@ -236,6 +239,8 @@ namespace MarchingCubesProject
                             indices.Add(index++);
                             indices.Add(index++);
                             break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -243,57 +248,15 @@ namespace MarchingCubesProject
             if (mscript == null)
                 mscript = GameObject.Find("GameObjectMesh").GetComponent<MeshScript>();
 
-            mscript.createIsolineGeometry(vertices, indices);
+            mscript.createIsolineGeometry(vertices, indices, vscript.Width, vscript.Height);
 
         }
 
-        void setSlice(int z)
+        private int setSlice(float val)
         {
-            const int xdim = 100;
-            const int ydim = 100;
-
-            texture = new Texture2D(xdim, ydim, TextureFormat.RGB24, false); // garbage collector will tackle that it is new'ed
-
-
-            for (int y = 0; y < ydim; y++)
-                for (int x = 0; x < xdim; x++)
-                {
-                    //float v = pixelval(new Vector3(x, y, z));
-                    //texture.SetPixel(x, y, new UnityEngine.Color(v, v, v));
-                }
-
-            texture.filterMode =
-                FilterMode.Point; // nearest neigbor interpolation is used.  (alternative is FilterMode.Bilinear)
-            texture.Apply(); // Apply all SetPixel calls
-            GetComponent<Renderer>().material.mainTexture = texture;
-            CreateIsoLine(texture);
-
+            return (int)( (float) vscript.Length * val);
         }
 
-        //float pixelval(Vector3 p)
-        //{
-        //    return Vector3.Magnitude(p - ORIGO)/50f;
-        //}
-
-        //public void slicePosSliderChange(float val)
-        //{
-        //    slice = val;
-        //}
-
-        //public void sliceIsoSliderChange(float val)
-        //{
-        //    iso = val;
-        //}
-
-        //public void button1Pushed()
-        //{
-        //      print("button1Pushed");
-        //}
-
-        //public void button2Pushed()
-        //{
-        //    lerp = !lerp;
-        //    CreateIsoLine2(texture);
-        //}
+     
     }
 }

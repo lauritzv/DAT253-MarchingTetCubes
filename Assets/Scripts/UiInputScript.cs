@@ -9,7 +9,6 @@ namespace MarchingCubesProject
 {
     public class UiInputScript : MonoBehaviour
     {
-        private VoxelScript VoxCreation;
         [SerializeField] private InputField widthField;
         [SerializeField] private InputField heigthField;
         [SerializeField] private InputField lengthField;
@@ -25,9 +24,18 @@ namespace MarchingCubesProject
         [SerializeField] private float defaultDicomIso = 0f;
         [SerializeField] private Vector3 defaultGridSize = new Vector3(32f,32f,32f);
 
+        // Preview Controls:
+        [SerializeField] private Slider slicePreviewSlider;
+        [SerializeField] private Slider isoPreviewSlider;
+
+
+
         private List<float> defaultIsos = new List<float>();
         private bool _autoUpdate;
+
+        private VoxelScript VoxCreation;
         private MeshScript _mscript;
+        [SerializeField]private QuadScript _qscript;
 
         void Start()
         {
@@ -37,6 +45,9 @@ namespace MarchingCubesProject
 
             if (_mscript == null)
                 _mscript = GetComponent<MeshScript>();
+
+            if (_qscript == null)
+                _qscript = GetComponent<QuadScript>();
 
             defaultIsos.Add(defaultSphereIso);
             defaultIsos.Add(defaultFractalIso);
@@ -67,6 +78,7 @@ namespace MarchingCubesProject
         {
             VoxCreation.UpdateButtonPushed();
             ScaleSliderChanged(scaleSlider.value);
+            _mscript._isolineMesh.Clear();
         }
 
         public void WidthChanged(string text)
@@ -170,5 +182,20 @@ namespace MarchingCubesProject
 
             else print("Filename is invalid or already taken.");
         }
+
+        public void SlicePreviewChanged(float val)
+        {
+            _qscript.slice = val;
+        }
+        public void IsoPreviewChanged(float val)
+        {
+            _qscript.iso = val;
+        }
+        public void ApplyIsoPushed()
+        {
+            IsoSliderChanged(_qscript.iso);
+            print("changing iso to:" + _qscript.iso);
+        }
+
     }
 }
