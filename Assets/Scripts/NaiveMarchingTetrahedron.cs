@@ -187,7 +187,7 @@ namespace MarchingCubesProject
 
         private void DoTriangle(Vector3 p1, Vector3 p2, Vector3 p3, IList<Vector3> vertList, IList<int> indexList)
         {
-            int index = indexList.Count -1;
+            int index = indexList.Count;
             vertList.Add(p1);
             vertList.Add(p2);
             vertList.Add(p3);

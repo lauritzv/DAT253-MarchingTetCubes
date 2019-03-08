@@ -4352,7 +4352,7 @@ MonoBehaviour:
   defaultSphereIso: 0
   defaultFractalIso: 0
   defaultDicomIso: 0
-  defaultGridSize: {x: 8, y: 8, z: 8}
+  defaultGridSize: {x: 24, y: 24, z: 24}
 --- !u!114 &1477449062
 MonoBehaviour:
   m_ObjectHideFlags: 0
