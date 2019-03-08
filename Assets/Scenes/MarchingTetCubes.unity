@@ -4362,13 +4362,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1477449058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7700e5799da2c4743a0574a9dbfa38ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 891fd046b1a68e842ace26165e661443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_material: {fileID: 2100000, guid: fb8a03accb87f7a4abc7af51618a72be, type: 2}
   _maxVertsPerMesh: 30000
   pointmode: 0
-  disableBackfaceCulling: 1
+  disableBackfaceCulling: 0
 --- !u!1 &1530814526
 GameObject:
   m_ObjectHideFlags: 0
