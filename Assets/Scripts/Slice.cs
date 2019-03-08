@@ -160,13 +160,20 @@ class Slice : IComparable   // IComparable so it can be sorted by sort()
 
     public static int getnumslices(string dicomfilepath)
     {
-        string[] dicomfilenames = Directory.GetFiles(dicomfilepath, "*.IMA");
+        string[] dicomfilenames;
+        dicomfilenames = Directory.GetFiles(dicomfilepath, "*.IMA");
+        if (dicomfilenames.Length < 1)
+            dicomfilenames = Directory.GetFiles(dicomfilepath, "*.ima");
+
         return dicomfilenames.Length;
     }
 
     public static void getSlices(string dicomfilepath, int _numSlices, out Slice[] _slices, out float min, out float max)
     {
-        string[] dicomfilenames = Directory.GetFiles(dicomfilepath, "*.IMA");
+        string[] dicomfilenames;
+        dicomfilenames = Directory.GetFiles(dicomfilepath, "*.IMA");
+        if (dicomfilenames.Length < 1)
+            dicomfilenames = Directory.GetFiles(dicomfilepath, "*.ima");
 
         _numSlices =  dicomfilenames.Length;
 
