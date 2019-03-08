@@ -1,6 +1,6 @@
 # DAT253-MarchingTetCubes
 
-## Marching Squares and marching tetrahedron, with Dicom dataset loading in Unity3D.
+## Marching Cubes, Marching Tetrahedron and Marching Squares, with Dicom dataset loading in Unity3D.
 
 Created for the DAT253 course at [Western Norway University of Applied Sciences (HVL)](https://www.hvl.no).
 
