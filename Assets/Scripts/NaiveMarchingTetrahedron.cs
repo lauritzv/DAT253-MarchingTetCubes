@@ -6,7 +6,7 @@ using UnityEngine.Experimental.PlayerLoop;
 namespace MarchingCubesProject
 {
     /// <summary>
-    /// An implementation of Marching Tetrahedron that's based on slides from the DAT253 course at HVL
+    /// An implementation of Marching Tetrahedron that's based on lecture slides from the DAT253 course at HVL
     /// </summary>
     public class NaiveMarchingTetrahedron : Marching
     {
@@ -14,8 +14,6 @@ namespace MarchingCubesProject
         private Vector3[] CubePosition { get; set; }
         private Vector3[] TetrahedronPosition { get; set; }
         private float[] TetrahedronValue { get; set; }
-
-        //private List<string> keyList = new List<string>(EdgeConnection.Keys);
 
         private List<Vector3> tetravecs = new List<Vector3>();
         private List<float> tetravalues = new List<float>();
@@ -44,11 +42,11 @@ namespace MarchingCubesProject
         {
             int tetraIndex;
             //Make a local copy of the cube's corner positions
-            for (tetraIndex = 0; tetraIndex < 8; tetraIndex++)
+            for (int i = 0; i < 8; i++)
             {
-                CubePosition[tetraIndex].x = x + VertexOffsetNaiveTetrahedron[tetraIndex, 0];
-                CubePosition[tetraIndex].y = y + VertexOffsetNaiveTetrahedron[tetraIndex, 1];
-                CubePosition[tetraIndex].z = z + VertexOffsetNaiveTetrahedron[tetraIndex, 2];
+                CubePosition[i].x = x + VertexOffsetNaiveTetrahedron[i, 0];
+                CubePosition[i].y = y + VertexOffsetNaiveTetrahedron[i, 1];
+                CubePosition[i].z = z + VertexOffsetNaiveTetrahedron[i, 2];
             }
 
             for (tetraIndex = 0; tetraIndex < 6; tetraIndex++) // for each tetra

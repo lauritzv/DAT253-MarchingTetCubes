@@ -204,7 +204,7 @@ namespace MarchingCubesProject
         {
             int pxVal = (_slices[slicenr].getPixels()[x + (y * _ydim)]);
 
-            // rescale to -0.5 - +0.5 range for better results with marching.Surface
+            // rescale to -1 to +1 range for better results with marching.Surface
             return 2f *(((float)pxVal - (float)_minIntensity) / ((float)_maxIntensity - (float)_minIntensity)) -1f;
         }
     }

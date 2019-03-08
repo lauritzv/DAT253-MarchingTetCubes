@@ -2,50 +2,6 @@
 // todo: cast dicom image directly to unity 2d texture: https://github.com/fo-dicom/fo-dicom/wiki/Image-rendering
 // fo-dicom in unity does not support jpeg encoded files:  https://github.com/fo-dicom/fo-dicom/wiki/Unity
 
-
-/*  // How to use this class from the quadScript.cs class:
-
-    Slice[] _slices;
-    int _numSlices;
-    int _minIntensity;
-    int _maxIntensity;
-    int _sliceNum;
-    float _iso;
-    float _brightness;
-    int _xdim;
-    int _ydim;
-    int _zdim;
-    Vector3 _voxelSize;
-
-    Slice.initDicom();
-   // absolute path: string dicomfilepath = @"D:\Hoyskolen\ctScans++\Bag scan\55540002";
-   //relative path :
-   string dicomfilepath = Application.dataPath + @"\..\dicomdata\"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
-
-
-    _numSlices =_numSlices =  Slice.getnumslices(dicomfilepath);
-    _slices = new Slice[_numSlices];
-
-    float min=0;
-    float max=0;
-    Slice.getSlices(dicomfilepath,_numSlices,out _slices, out min, out max);
-
-    SliceInfo info = _slices[0].sliceInfo;
-
-    _minIntensity = (int)min;
-    _maxIntensity = (int)max;
-    _iso = (_minIntensity + _maxIntensity)/2;
-    _xdim = info.Rows;
-    _ydim = info.Columns;
-    _zdim = _numSlices;
-    print("Number of slices read:" + _numSlices);
-
-    // how to access the values inside a specific slice:
-    ushort[] pixels = _slices[4].getPixels();
-    int val = pixels[11 + 44 * _xdim]; // val is value at index (11,44) for slice 4, i.e. index (11,44,4)
-
-*/
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -198,3 +154,46 @@ class Slice : IComparable   // IComparable so it can be sorted by sort()
 
 
 }
+
+/*  // How to use this class from the quadScript.cs class:
+
+    Slice[] _slices;
+    int _numSlices;
+    int _minIntensity;
+    int _maxIntensity;
+    int _sliceNum;
+    float _iso;
+    float _brightness;
+    int _xdim;
+    int _ydim;
+    int _zdim;
+    Vector3 _voxelSize;
+
+    Slice.initDicom();
+   // absolute path: string dicomfilepath = @"D:\Hoyskolen\ctScans++\Bag scan\55540002";
+   //relative path :
+   string dicomfilepath = Application.dataPath + @"\..\dicomdata\"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
+
+
+    _numSlices =_numSlices =  Slice.getnumslices(dicomfilepath);
+    _slices = new Slice[_numSlices];
+
+    float min=0;
+    float max=0;
+    Slice.getSlices(dicomfilepath,_numSlices,out _slices, out min, out max);
+
+    SliceInfo info = _slices[0].sliceInfo;
+
+    _minIntensity = (int)min;
+    _maxIntensity = (int)max;
+    _iso = (_minIntensity + _maxIntensity)/2;
+    _xdim = info.Rows;
+    _ydim = info.Columns;
+    _zdim = _numSlices;
+    print("Number of slices read:" + _numSlices);
+
+    // how to access the values inside a specific slice:
+    ushort[] pixels = _slices[4].getPixels();
+    int val = pixels[11 + 44 * _xdim]; // val is value at index (11,44) for slice 4, i.e. index (11,44,4)
+
+*/

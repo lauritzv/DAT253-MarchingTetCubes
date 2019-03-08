@@ -10,19 +10,18 @@ namespace MarchingCubesProject
 {
     public class QuadScript : MonoBehaviour
     {
-        //public float[] Voxels;
-        //public int Width, Heigth, Length;
-
-        //private Texture2D texture;
-
-        //private int segments = 36;
         public MeshScript mscript;
         public VoxelScript vscript;
-
+ 
+        /// <summary>
+        /// Interpolate the isoline?
+        /// </summary>
         public bool lerp = true;
 
-        private float m_slice = 0.5f;
+
         private int sliceNr = 0;
+        private float m_slice = 0.5f;
+
         public float slice
         {
             get { return m_slice; }
@@ -53,16 +52,11 @@ namespace MarchingCubesProject
             }
         }
 
-        // location of center of 'imaginary' sphere
-        //private Vector3 ORIGO = new Vector3(50f, 50f, 50f);
-
-        //size of a texture pixel
+        //relative size of a voxel
         private float pxsize = 1f;
 
-        // Start is called once when the application is run
         void Start()
         {
-
             mscript = GetComponent<MeshScript>();
             vscript = GetComponent<VoxelScript>();
             sliceNr = setSlice(slice);
@@ -71,17 +65,9 @@ namespace MarchingCubesProject
 
         void CreateIsoLine(int z)
         {
-            //if (tex == null)
-            //    tex = (Texture2D) GetComponent<Renderer>().material.mainTexture;
-
-            //int ht = tex.height;
-            //int width = tex.width;
             List<Vector3> vertices = new List<Vector3>();
             List<int> indices = new List<int>();
             int index = 0;
-
-
-            
             
             for (int i = 1; i < vscript.Width; i++)
             {
@@ -129,7 +115,7 @@ namespace MarchingCubesProject
                         else db = (iso - bl) / (br - bl);
                     }
 
-                    string tup = (pa ? "1" : "0")
+                    string cases =   (pa ? "1" : "0")
                                    + (pb ? "1" : "0")
                                    + (pc ? "1" : "0")
                                    + (pd ? "1" : "0");
@@ -145,7 +131,7 @@ namespace MarchingCubesProject
                     Vector3 t = new Vector3(px.x + dt, px.y + pxsize);
                     Vector3 b = new Vector3(px.x + db, px.y);
 
-                    switch (tup)
+                    switch (cases)
                     {
                         case "1000": //1
                             vertices.Add(b);
@@ -249,14 +235,12 @@ namespace MarchingCubesProject
                 mscript = GameObject.Find("GameObjectMesh").GetComponent<MeshScript>();
 
             mscript.createIsolineGeometry(vertices, indices, vscript.Width, vscript.Height);
-
         }
 
         private int setSlice(float val)
         {
             return (int)( (float) vscript.Length * val);
         }
-
      
     }
 }

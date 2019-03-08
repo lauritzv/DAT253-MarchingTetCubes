@@ -143,12 +143,6 @@ namespace MarchingCubesProject
             UpdatePushed();
         }
 
-        //public void TetrasSelected(bool on)
-        //{
-        //    VoxCreation.Mode = @on ? MARCHING_MODE.Tetrahedron : MARCHING_MODE.Cubes;
-        //    UpdatePushed();
-        //}
-
         public void MAlgorithmDropdownChanged(int value)
         {
             switch (value)
@@ -194,7 +188,6 @@ namespace MarchingCubesProject
         public void ApplyIsoPushed()
         {
             IsoSliderChanged(_qscript.iso);
-            print("changing iso to:" + _qscript.iso);
         }
 
     }
