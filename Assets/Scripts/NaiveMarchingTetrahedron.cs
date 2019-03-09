@@ -79,7 +79,7 @@ namespace MarchingCubesProject
             Vector3 v4 = tetravecs[3];
             Vector3 p1, p2, p3, p4;
 
-            string cases =   (d1 > Surface ? "1" : "0") 
+            string cases =   (d1 > Surface ? "1" : "0")
                            + (d2 > Surface ? "1" : "0")
                            + (d3 > Surface ? "1" : "0")
                            + (d4 > Surface ? "1" : "0");
@@ -215,6 +215,6 @@ namespace MarchingCubesProject
                 delta = 1.0f - delta;
 
             return Vector3.Lerp(p1, p2, delta);
-        }       
+        }
     }
 }

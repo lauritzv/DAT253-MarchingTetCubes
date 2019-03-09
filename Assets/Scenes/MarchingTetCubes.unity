@@ -5378,6 +5378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mode: 1
   MObject: 0
+  AddPaddingToDicom: 1
   seed: 0
   Iso: 0
   Width: 16

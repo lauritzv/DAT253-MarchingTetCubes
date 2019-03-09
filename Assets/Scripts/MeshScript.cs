@@ -24,7 +24,7 @@ namespace MarchingCubesProject
         /// // render points instead of triangles. (For troubleshooting)
         /// </summary>
         [SerializeField] private bool pointmode = false;
-        [SerializeField] private bool disableBackfaceCulling = true;
+        [SerializeField] private bool disableBackfaceCulling = false;
 
         private float _isolineScaleFactor = 24f;
 
@@ -128,7 +128,7 @@ namespace MarchingCubesProject
 
                 Mesh mesh = new Mesh();
                 mesh.SetVertices(splitVerts);
-                
+
                 if (pointmode)
                 {
                     mesh.SetIndices(splitIndices.ToArray(), MeshTopology.Points, 0);
@@ -154,7 +154,7 @@ namespace MarchingCubesProject
                 go.transform.localPosition = new Vector3(-width / 2f, -height / 2f, -length / 2f);
 
                 meshes.Add(go);
-  
+
                 print("surfaces generated!");
             }
         }

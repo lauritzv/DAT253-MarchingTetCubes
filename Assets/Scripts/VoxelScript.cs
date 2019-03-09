@@ -14,6 +14,7 @@ namespace MarchingCubesProject
         [HideInInspector] public MARCHING_MODE Mode = MARCHING_MODE.Tetrahedron;
         [HideInInspector] public MARCHING_OBJECT MObject = MARCHING_OBJECT.Sphere;
 
+        public bool AddPaddingToDicom = true;
         /// <summary>
         /// seed used for fractal noise generation
         /// </summary>
@@ -67,9 +68,11 @@ namespace MarchingCubesProject
                 string dicomfilepath = Application.dataPath +
                     @"/../dicomdata/"; // Application.dataPath is in the assets folder, but these files are "managed", so we go one level up
 
-                _numSlices = _numSlices = Slice.getnumslices(dicomfilepath);
-                _slices = new Slice[_numSlices];
+                if (AddPaddingToDicom)
+                    _numSlices = _numSlices = Slice.getnumslices(dicomfilepath) + 2;
+                else _numSlices = _numSlices = Slice.getnumslices(dicomfilepath);
 
+                _slices = new Slice[_numSlices];
                 float min = 0;
                 float max = 0;
                 Slice.getSlices(dicomfilepath, _numSlices, out _slices, out min, out max);
@@ -114,6 +117,11 @@ namespace MarchingCubesProject
                     LoadDicomData();
                     _dicomSetLoaded = true;
                 }
+
+                if (AddPaddingToDicom)
+                {
+                    Width += 2; Height += 2; Length += 2; // added padding
+                }
                 _voxels = GenerateDicomVoxels(Width, Height, Length);
             }
             NewVoxelsNeeded = false;
@@ -121,12 +129,23 @@ namespace MarchingCubesProject
 
         private float[] GenerateDicomVoxels(int width, int height, int length)
         {
-            float stepsizeX = (float) _xdim / (width);
-            float stepsizeY = (float) _ydim / (height);
-            float stepsizeZ = (float) _zdim / (length);
+            float stepsizeX, stepsizeY, stepsizeZ;
+            if (AddPaddingToDicom)
+            {
+                stepsizeX = (float) (_xdim) /  (width -1 );
+                stepsizeY = (float) (_ydim) / (height -1 );
+                stepsizeZ = (float) (_zdim) / (length -1 );
+            }
+            else
+            {
+                stepsizeX = (float)(_xdim) / (width);
+                stepsizeY = (float)(_ydim) / (height);
+                stepsizeZ = (float)(_zdim) / (length -1 );
+            }
             float[] voxels = new float[width * height * length];
+            print("generating " + voxels.Length + " voxels"
+                  +(AddPaddingToDicom ? " (including edge padding blocks)..." : "..."));
 
-            print("generating " + voxels.Length + " voxels...");
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -134,10 +153,26 @@ namespace MarchingCubesProject
                     for (int z = 0; z < length; z++)
                     {
                         int idx = x + y * width + z * width * height;
-                        voxels[idx] = GetDicomLocVal(
-                            (int) (((float)x)*stepsizeX),
-                            (int) (((float)y)*stepsizeY),
-                            (int) (((float)z)*stepsizeZ));
+
+                        if (AddPaddingToDicom && (x == 0 || y == 0 || z == 0 || x == width - 1 || y == height - 1 || z == length - 1))
+                        {
+                            // add a "padding block" for edge voxels
+                            voxels[idx] = 2f * (float)_minIntensity - 1f;
+                        }
+
+                        else
+                        {
+                            if (AddPaddingToDicom)
+                                voxels[idx] = GetDicomLocVal(
+                            (int) (((float)x)*stepsizeX - 1f),  // -1 to compensate for padding block
+                            (int) (((float)y)*stepsizeY - 1f),
+                            (int) (((float)z)*stepsizeZ - 1f));
+
+                            else voxels[idx] = GetDicomLocVal(
+                                (int)(((float)x) * stepsizeX),
+                                (int)(((float)y) * stepsizeY),
+                                (int)(((float)z) * stepsizeZ));
+                        }
                     }
                 }
             }
@@ -175,7 +210,7 @@ namespace MarchingCubesProject
         private float[] GenerateSphereVoxels(int width, int height, int length, float radius, Vector3 origo)
         {
             float[] voxels = new float[width * height * length];
-            float stepsizeX = 2f * radius / (width - 1f);
+            float stepsizeX = 2f * radius / (width  - 1f);
             float stepsizeY = 2f * radius / (height - 1f);
             float stepsizeZ = 2f * radius / (length - 1f);
 
@@ -202,7 +237,7 @@ namespace MarchingCubesProject
 
         private float GetDicomLocVal(int x, int y, int slicenr)
         {
-            int pxVal = (_slices[slicenr].getPixels()[x + (y * _ydim)]);
+            int pxVal = (_slices[slicenr].getPixels()[x + (y * _xdim)]);
 
             // rescale to -1 to +1 range for better results with marching.Surface
             return 2f *(((float)pxVal - (float)_minIntensity) / ((float)_maxIntensity - (float)_minIntensity)) -1f;
