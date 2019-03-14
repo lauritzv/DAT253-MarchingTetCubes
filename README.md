@@ -2,7 +2,7 @@
 
 ## Marching Cubes, Marching Tetrahedron and Marching Squares, with Dicom dataset loading in Unity3D.
 
-Created for the DAT253 course at [Western Norway University of Applied Sciences (HVL)](https://www.hvl.no).
+Created for the [DAT253 course](https://ict.hvl.no/dat253-advanced-computer-graphics/) at [Western Norway University of Applied Sciences (HVL)](https://www.hvl.no).
 
 The (non-naive) marching tetrahedron and marching cubes algorithms are from [this repository](https://github.com/Scrawk/Marching-Cubes) by [Scrawk](https://github.com/Scrawk/) (Based on [Marching Cubes Example Program](http://www.siafoo.net/snippet/100) by Cory Bloyd), and can be found in the 3rdparty asset directory.
 
